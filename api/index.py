@@ -59,6 +59,10 @@ async def lifespan(app: FastAPI):
 # Initialize FastAPI app with lifespan
 app = FastAPI(lifespan=lifespan)
 
+@app.get("/")  # Make sure this route exists!
+def read_root():
+    return {"message": "FastAPI is working!"}
+
 @app.get("/currency/{code}")
 def get_currency(code: str):
     """Returns the buy and sell price for a given currency code."""
