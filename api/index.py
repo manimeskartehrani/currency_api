@@ -59,7 +59,7 @@ async def lifespan(app: FastAPI):
 # Initialize FastAPI app with lifespan
 app = FastAPI(lifespan=lifespan)
 
-@app.get("/", methods=["GET", "HEAD"])  # Make sure this route exists!
+@app.get("/")  # Make sure this route exists!
 def read_root():
     return {"message": "FastAPI is working!"}
 
