@@ -30,22 +30,23 @@ def scrape_currency_data():
     soup = BeautifulSoup(response.text, 'html.parser')
 
     # Locate the currency exchange table (Modify this if needed)
-    currencies_table = soup.find('table')  
-    if not currencies_table:
-        raise HTTPException(status_code=404, detail="Currency table not found on the page")
+    for i in range(2):
+        currencies_table = soup.find_all('table')[i]
+        if not currencies_table:
+            raise HTTPException(status_code=404, detail="Currency table not found on the page")
 
-    # Extract data and store it in a dictionary
-    temp_data = {}
-    for row in currencies_table.find_all('tr'):
-        columns = row.find_all('td')
-        if columns:
-            code = columns[0].text.strip()
-            currency = columns[1].text.strip()
-            sell = columns[2].text.strip()
-            buy = columns[3].text.strip()
-            temp_data[code] = {"currency": currency, "sell": sell, "buy": buy}
+        # Extract data and store it in a dictionary
+        temp_data = {}
+        for row in currencies_table.find_all('tr'):
+            columns = row.find_all('td')
+            if columns:
+                code = columns[0].text.strip()
+                currency = columns[1].text.strip()
+                sell = columns[2].text.strip()
+                buy = columns[3].text.strip()
+                temp_data[code] = {"currency": currency, "sell": sell, "buy": buy}
 
-    currency_data = temp_data  # Update global variable
+        currency_data.update(temp_data)  # Update global variable
 
 
 @asynccontextmanager
